@@ -149,10 +149,14 @@ Open any browser and navigate to http://localhost:9090 to verify Prometheus is r
 
 4.In Prometheus, type csvserver_records in the query box,click on Execute,then it switches to the Graph tab.
 
+
+
+
+
+
+
 Cleanup
 To stop and remove the running containers:
-
-bash
 docker-compose down
 
 
