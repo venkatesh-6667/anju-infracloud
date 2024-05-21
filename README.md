@@ -18,7 +18,7 @@ This project provides instructions and scripts to set up a containerized CSV ser
 
 -Clone the `csvserver` repository to get the necessary files:
 
-```bash
+bash
 
 git clone https://github.com/infracloudio/csvserver.git
 
