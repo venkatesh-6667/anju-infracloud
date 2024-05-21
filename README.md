@@ -16,148 +16,146 @@ This project provides instructions and scripts to set up a containerized CSV ser
 
 1. Clone the Repository
 
--Clone the `csvserver` repository to get the necessary files:
+- Clone the `csvserver` repository to get the necessary files:
 
 bash
 
-git clone https://github.com/infracloudio/csvserver.git
+`git clone https://github.com/infracloudio/csvserver.git`
 
-cd csvserver
+`cd csvserver`
 
--Pull the container image infracloudio/csvserver:latest:
-
-bash
-docker pull infracloudio/csvserver:latest
-
--Run the container image in the background:
+- Pull the container image infracloudio/csvserver:latest:
 
 bash
-docker run -d --name csvserver infracloudio/csvserver:latest
+`docker pull infracloudio/csvserver:latest`
 
--2.Check if it's running:
+Run the container image in the background:
 
 bash
-docker ps
+`docker run -d --name csvserver infracloudio/csvserver:latest`
 
--If the container is failing, inspect the logs to find the reason:
+- 2.Check if it's running:
+
+bash
+`docker ps`
+
+- If the container is failing, inspect the logs to find the reason:
 
 bash
 docker logs csvserver
 
--3.Generate inputdata Using gencsv.sh
-Save this script as gencsv.sh and make it executable:
+- 3.Generate inputdata Using gencsv.sh
 
-chmod +x gencsv.sh
+  Save this script as gencsv.sh and make it executable:
 
--Run the script to generate inputdata:
+`chmod +x gencsv.sh`
+
+- Run the script to generate inputdata:
 
 bash
-./gencsv.sh 2 8
+`./gencsv.sh 2 8`
 
 
--4.Run the container again with inputdata available inside the container:
+- 4.Run the container again with inputdata available inside the container:
 
-docker run -d -v "$(pwd)/inputdata:/csvserver/inputdata" infracloudio/csvserver:latest
+`docker run -d -v "$(pwd)/inputdata:/csvserver/inputdata" infracloudio/csvserver:latest`
 
 Copy the container ID by running:
 
 bash
-docker ps -a
+`docker ps -a`
 
 -5.Copy the container ID and get shell access to the running container:
 
 bash
-docker exec -it <container_id> /bin/bash
+`docker exec -it <container_id> /bin/bash`
 
 -Inside the container, find the port on which the application is listening:
 
 bash
-netstat -tuln
+`netstat -tuln`
 
--6.Run the Container with Port Mapping and Environment Variable
-Run the container ensuring the application is accessible on the host at http://localhost:9393 and set the environment variable CSVSERVER_BORDER to Orange:
+- 6.Run the Container with Port Mapping and Environment Variable
 
-bash
-docker run -d -p 9393:9300 -e CSVSERVER_BORDER=Orange -v "$(pwd)/inputdata:/csvserver/inputdata" infracloudio/csvserver:latest
-
--Stop and remove the running container:
+    Run the container ensuring the application is accessible on the host at http://localhost:9393 and set the environment variable CSVSERVER_BORDER to Orange:
 
 bash
-docker stop <container_id>
-docker rm <container_id>
+`docker run -d -p 9393:9300 -e CSVSERVER_BORDER=Orange -v "$(pwd)/inputdata:/csvserver/inputdata" infracloudio/csvserver:latest`
+
+- Stop and remove the running container:
+
+bash
+`docker stop <container_id>`
+`docker rm <container_id>`
 
 Check the container status:
 
 bash
-docker ps
+`docker ps`
 
--Verify the desired result by accessing http://localhost:9393.
-
-
--#Save the above generated files gencsv.sh, inputFile, part-1-cmd, part-1-output, part-1-logs.
+- Verify the desired result by accessing http://localhost:9393.
 
 
-##Part 2: Running the Container with Docker Compose
+- Save the above generated files gencsv.sh, inputFile, part-1-cmd, part-1-output, part-1-logs.
 
--1.Stop and remove any containers from the previous part:
 
-bash
-docker-compose down
+## Part 2: Running the Container with Docker Compose
 
--2.Create a docker-compose.yaml and
-
--3.Create csvserver.env file for the requirement
-
--Ensure the generated inputdata using the gencsv.sh script from Part 1:
+- 1.Stop and remove any containers from the previous part:
 
 bash
-./gencsv.sh 2 8
+`docker-compose down`
 
--4.Run the application using Docker Compose:
+- 2.Create a docker-compose.yaml and
+
+- 3.Create csvserver.env file for the requirement
+
+- Ensure the generated inputdata using the gencsv.sh script from Part 1:
 
 bash
-docker-compose up -d
+`./gencsv.sh 2 8`
 
--#Verify the Application
+- 4.Run the application using Docker Compose:
+
+bash
+`docker-compose up -d`
+
+- #Verify the Application
 Open any browser and navigate to http://localhost:9393 to verify:
 The application displays 7 entries from inputdata.
 The welcome note has an orange color border.
 
 
 
-##Part 3: Adding Prometheus for Monitoring
+## Part 3: Adding Prometheus for Monitoring
 
--1.Stop and remove any containers from the previous part:
+- 1.Stop and remove any containers from the previous part:
 
 bash
-docker-compose down
+`docker-compose down`
 
--2.Update docker-compose.yaml to include a Prometheus service:
+- 2.Update docker-compose.yaml to include a Prometheus service:
   Create a Prometheus configuration file named prometheus.yml
   Ensure you have generated the inputdata using the gencsv.sh script from Part 1:
 
 bash
-./gencsv.sh 2 8
+`./gencsv.sh 2 8`
 
--Run the application using Docker Compose:
+ - Run the application using Docker Compose:
 
 bash
-docker-compose up -d
+`docker-compose up -d`
 
--3.Verify Prometheus
-Open any browser and navigate to http://localhost:9090 to verify Prometheus is running.
+- 3.Verify Prometheus
+  
+    Open any browser and navigate to http://localhost:9090 to verify Prometheus is running.
 
-4.In Prometheus, type csvserver_records in the query box,click on Execute,then it switches to the Graph tab.
-
-
-
+- 4.In Prometheus, type csvserver_records in the query box,click on Execute,then it switches to the Graph tab.
 
 
-
-
-Cleanup
+#Cleanup
 To stop and remove the running containers:
-docker-compose down
+`docker-compose down`
 
 
 
