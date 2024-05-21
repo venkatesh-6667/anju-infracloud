@@ -33,7 +33,7 @@ This project provides instructions and scripts to set up a containerized CSV ser
 
 2.Check if it's running:
 
-       docker ps
+        docker ps
 
 - If the container is failing, inspect the logs to find the reason:
 
