@@ -24,66 +24,66 @@ This project provides instructions and scripts to set up a containerized CSV ser
 
 - Pull the container image infracloudio/csvserver:latest:
 
-      `docker pull infracloudio/csvserver:latest`
+       docker pull infracloudio/csvserver:latest
 
 - Run the container image in the background:
 
 
-      `docker run -d --name csvserver infracloudio/csvserver:latest`
+       docker run -d --name csvserver infracloudio/csvserver:latest
 
 2.Check if it's running:
 
-      `docker ps`
+       docker ps
 
 - If the container is failing, inspect the logs to find the reason:
 
 
-      `docker logs csvserver`
+       docker logs csvserver
 
 3.Generate inputdata Using gencsv.sh
 
   Save this script as gencsv.sh and make it executable:
 
-      `chmod +x gencsv.sh`
+       chmod +x gencsv.sh
 
 - Run the script to generate inputdata:
 
 
-      `./gencsv.sh 2 8`
+       ./gencsv.sh 2 8
 
 4.Run the container again with inputdata available inside the container:
 
-      `docker run -d -v "$(pwd)/inputdata:/csvserver/inputdata" infracloudio/csvserver:latest`
+       docker run -d -v "$(pwd)/inputdata:/csvserver/inputdata" infracloudio/csvserver:latest
 
    Copy the container ID by running:
 
 
-      `docker ps -a`
+      docker ps -a
 
 5.Copy the container ID and get shell access to the running container:
 
-      `docker exec -it <container_id> /bin/bash`
+       docker exec -it <container_id> /bin/bash
 
 - Inside the container, find the port on which the application is listening:
 
-      `netstat -tuln`
+       netstat -tuln
 
 6.Run the Container with Port Mapping and Environment Variable
 
 - Run the container ensuring the application is accessible on the host at http://localhost:9393 and set the environment variable CSVSERVER_BORDER to Orange:
 
 
-      `docker run -d -p 9393:9300 -e CSVSERVER_BORDER=Orange -v "$(pwd)/inputdata:/csvserver/inputdata" infracloudio/csvserver:latest`
+       docker run -d -p 9393:9300 -e CSVSERVER_BORDER=Orange -v "$(pwd)/inputdata:/csvserver/inputdata" infracloudio/csvserver:latest
 
 - Stop and remove the running container:
 
 
-      `docker stop <container_id>`
-      `docker rm <container_id>`
+       docker stop <container_id>
+       docker rm <container_id>
 
   Check the container status:
 
-      `docker ps`
+       docker ps
 
 - Verify the desired result by accessing http://localhost:9393.
 
@@ -95,7 +95,7 @@ This project provides instructions and scripts to set up a containerized CSV ser
 
 1.Stop and remove any containers from the previous part:
 
-     `docker-compose down`
+      docker-compose down
 
 2.Create a docker-compose.yaml and
 
@@ -104,7 +104,7 @@ This project provides instructions and scripts to set up a containerized CSV ser
 - Ensure the generated inputdata using the gencsv.sh script from Part 1:
 
 
-    `./gencsv.sh 2 8`
+     ./gencsv.sh 2 8
 
 4.Run the application using Docker Compose:
 
@@ -122,23 +122,23 @@ This project provides instructions and scripts to set up a containerized CSV ser
 
 1.Stop and remove any containers from the previous part:
     
-      `docker-compose down`
+       docker-compose down
 
 2.Update docker-compose.yaml to include a Prometheus service:
    Create a Prometheus configuration file named prometheus.yml
    Ensure you have generated the inputdata using the gencsv.sh script from Part 1:
 
 
-      `./gencsv.sh 2 8`
+       ./gencsv.sh 2 8
 
  - Run the application using Docker Compose:
 
 
-      `docker-compose up -d`
+       docker-compose up -d
 
 3.Verify Prometheus
   
-   Open any browser and navigate to http://localhost:9090 to verify Prometheus is running.
+  Open any browser and navigate to http://localhost:9090 to verify Prometheus is running.
 
 4.In Prometheus, type csvserver_records in the query box,click on Execute,then it switches to the Graph tab.
 
@@ -146,7 +146,7 @@ This project provides instructions and scripts to set up a containerized CSV ser
  #Cleanup
   To stop and remove the running containers:
  
-      `docker-compose down`
+       docker-compose down
 
 
 
